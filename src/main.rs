@@ -69,11 +69,11 @@ fn get_day_input(day: u8) -> Vec<String> {
             .collect::<Vec<String>>();
     }
 
-    let path = format!("input/day{:02}.txt", day);
+    let path = format!("inputs/day{:02}.txt", day);
     match advent_of_code_2024::read_lines_as_vec(&path) {
         Ok(lines) => lines,
         Err(_) => {
-            let path = format!("input/day{}.txt", day);
+            let path = format!("inputs/day{}.txt", day);
             match advent_of_code_2024::read_lines_as_vec(&path) {
                 Ok(lines) => lines,
                 Err(_) => panic!("Could not find input file"),
