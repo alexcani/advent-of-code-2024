@@ -21,7 +21,7 @@ fn main() {
     let mut runtime = 0.0;
 
     for day in days {
-        let func = get_day_solver(day);
+        let func = days::get_day_solver(day);
         let input = get_day_input(day);
 
         let mut context = Context::new(input);
@@ -51,13 +51,6 @@ fn main() {
     }
 
     println!("Total runtime: {:.4} ms", runtime);
-}
-
-fn get_day_solver(day: u8) -> fn(&mut Context) -> () {
-    match day {
-        1 => days::day01::solve,
-        _ => unimplemented!(),
-    }
 }
 
 fn get_day_input(day: u8) -> Vec<String> {
