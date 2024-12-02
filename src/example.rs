@@ -1,8 +1,8 @@
 // Define global variable for example string
 pub static EXAMPLE: &str =
-r#"3   4
-4   3
-2   5
-1   3
-3   9
-3   3"#;
+r#"7 6 4 2 1
+1 2 7 8 9
+9 7 6 2 1
+1 3 2 4 5
+8 6 4 4 1
+1 3 6 7 9"#;
