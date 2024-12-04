@@ -17,6 +17,10 @@ pub const DIAGONALS: [Point; 8] = [
     DOWN,
     Point::new(1, 1),
 ];
+pub const UPPER_LEFT: Point = DIAGONALS[0];
+pub const UPPER_RIGHT: Point = DIAGONALS[2];
+pub const LOWER_LEFT: Point = DIAGONALS[5];
+pub const LOWER_RIGHT: Point = DIAGONALS[7];
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash, Debug)]
 pub struct Point {
