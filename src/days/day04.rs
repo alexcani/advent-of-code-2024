@@ -26,10 +26,9 @@ pub fn solve(context: &mut Context) {
             let point = Point::new(x as i64, y as i64);
             if map[point] == b'A' {
                 // A needs to be in the middle
-                let diag_1 = (map[point + UPPER_LEFT] == b'M' && map[point + LOWER_RIGHT] == b'S') ||
-                             (map[point + UPPER_LEFT] == b'S' && map[point + LOWER_RIGHT] == b'M');
-                let diag_2 = (map[point + UPPER_RIGHT] == b'M' && map[point + LOWER_LEFT] == b'S') ||
-                                (map[point + UPPER_RIGHT] == b'S' && map[point + LOWER_LEFT] == b'M');
+                let diag_1 = matches!((map[point + UPPER_LEFT], map[point + LOWER_RIGHT]), (b'M', b'S') | (b'S', b'M'));
+                let diag_2 = matches!((map[point + UPPER_RIGHT], map[point + LOWER_LEFT]), (b'M', b'S') | (b'S', b'M'));
+
                 if diag_1 && diag_2 {
                     number_of_x_mas += 1;
                 }
