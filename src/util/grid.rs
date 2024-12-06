@@ -1,4 +1,6 @@
 use crate::util::point::*;
+
+use std::borrow::Borrow;
 use std::fmt::Display;
 use std::ops::{Index, IndexMut};
 
@@ -35,14 +37,22 @@ impl Grid<u8> {
 
 impl<T: PartialEq> Grid<T> {
     #[inline]
-    pub fn contains(&self, point: Point) -> bool {
+    pub fn contains<P>(&self, point: P) -> bool
+    where
+        P: Borrow<Point>,
+    {
+        let point = point.borrow();
         point.x >= 0 && point.x < self.width as i64 && point.y >= 0 && point.y < self.height as i64
     }
 
-    pub fn find(&self, needle: &T) -> Option<Point> {
+    pub fn find<U>(&self, needle: U) -> Option<Point>
+    where
+        T: Borrow<U>,
+        U: PartialEq,
+    {
         self.data
             .iter()
-            .position(|x| x == needle)
+            .position(|x| x.borrow() == &needle)
             .map(|i| Point::new((i % self.width) as i64, (i / self.width) as i64))
     }
 }
@@ -52,13 +62,29 @@ impl<T> Index<Point> for Grid<T> {
 
     #[inline]
     fn index(&self, index: Point) -> &Self::Output {
-        &self.data[index.y as usize * self.width + index.x as usize]
+        &self[&index]
     }
 }
 
 impl<T> IndexMut<Point> for Grid<T> {
     #[inline]
     fn index_mut(&mut self, index: Point) -> &mut Self::Output {
+        &mut self[&index]
+    }
+}
+
+impl<T> Index<&Point> for Grid<T> {
+    type Output = T;
+
+    #[inline]
+    fn index(&self, index: &Point) -> &Self::Output {
+        &self.data[index.y as usize * self.width + index.x as usize]
+    }
+}
+
+impl<T> IndexMut<&Point> for Grid<T> {
+    #[inline]
+    fn index_mut(&mut self, index: &Point) -> &mut Self::Output {
         &mut self.data[index.y as usize * self.width + index.x as usize]
     }
 }

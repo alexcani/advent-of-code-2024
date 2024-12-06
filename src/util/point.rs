@@ -41,13 +41,13 @@ impl Point {
 
     #[inline]
     #[must_use]
-    pub fn counter_clockwise(self) -> Self {
+    pub fn clockwise(self) -> Self {
         Point::new(-self.y, self.x)
     }
 
     #[inline]
     #[must_use]
-    pub fn clockwise(self) -> Self {
+    pub fn counter_clockwise(self) -> Self {
         Point::new(self.y, -self.x)
     }
 }
