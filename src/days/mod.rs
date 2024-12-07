@@ -4,6 +4,7 @@ pub mod day03;
 pub mod day04;
 pub mod day05;
 pub mod day06;
+pub mod day07;
 
 use advent_of_code_2024::Context;
 
@@ -15,6 +16,7 @@ pub fn get_day_solver(day: u8) -> fn(&mut Context) -> () {
       4 => day04::solve,
       5 => day05::solve,
       6 => day06::solve,
+      7 => day07::solve,
       _ => unimplemented!(),
   }
 }
