@@ -100,3 +100,93 @@ impl Display for Grid<u8> {
         Ok(())
     }
 }
+
+impl<T> Grid<T> {
+    pub fn iter(&self) -> GridIter<T> {
+        GridIter {
+            grid: self,
+            x: 0,
+            y: 0,
+        }
+    }
+
+    pub fn iter_mut(&mut self) -> GridIterMut<T> {
+        GridIterMut {
+            grid: self,
+            x: 0,
+            y: 0,
+        }
+    }
+}
+
+pub struct GridIter<'a, T> {
+    grid: &'a Grid<T>,
+    x: usize,
+    y: usize,
+}
+
+impl<'a, T> Iterator for GridIter<'a, T> {
+    type Item = (Point, &'a T);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.y >= self.grid.height {
+            return None;
+        }
+        let point = Point::new(self.x as i64, self.y as i64);
+
+        self.x += 1;
+        if self.x >= self.grid.width {
+            self.x = 0;
+            self.y += 1;
+        }
+
+        Some((point, &self.grid[&point]))
+    }
+}
+
+impl<'a, T> IntoIterator for &'a Grid<T> {
+    type Item = (Point, &'a T);
+    type IntoIter = GridIter<'a, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
+pub struct GridIterMut<'a, T> {
+    grid: &'a mut Grid<T>,
+    x: usize,
+    y: usize,
+}
+
+impl<'a, T> Iterator for GridIterMut<'a, T> {
+    type Item = (Point, &'a mut T);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.y >= self.grid.height {
+            return None;
+        }
+        let point = Point::new(self.x as i64, self.y as i64);
+        self.x += 1;
+        if self.x >= self.grid.width {
+            self.x = 0;
+            self.y += 1;
+        }
+
+        let value = unsafe {
+            let ptr = self.grid.data.as_mut_ptr();
+            &mut *ptr.add(point.y as usize * self.grid.width + point.x as usize)
+        };
+
+        Some((point, value))
+    }
+}
+
+impl<'a, T> IntoIterator for &'a mut Grid<T> {
+    type Item = (Point, &'a mut T);
+    type IntoIter = GridIterMut<'a, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter_mut()
+    }
+}
