@@ -30,7 +30,7 @@ fn apply_rules(stones: Vec<u64>) -> Vec<u64> {
             new_stones.push(1);
             continue;
         }
-        let number_of_digits = (stone as f64).log10().floor() as u32 + 1;
+        let number_of_digits = stone.ilog10() + 1;
         let is_even = number_of_digits % 2 == 0;
         if !is_even {
             new_stones.push(stone * 2024u64);
@@ -38,7 +38,7 @@ fn apply_rules(stones: Vec<u64>) -> Vec<u64> {
         }
 
         let first_digits = stone / 10u64.pow(number_of_digits / 2);
-        let last_digits = stone - first_digits * 10u64.pow(number_of_digits / 2);
+        let last_digits = stone % 10u64.pow(number_of_digits / 2);
         new_stones.push(first_digits);
         new_stones.push(last_digits);
     }
