@@ -1,4 +1,5 @@
-use std::ops::{Add, AddAssign, Sub, SubAssign, Mul};
+use std::fmt;
+use std::ops::{Add, AddAssign, Mul, Neg, Sub, SubAssign};
 
 pub const ORIGIN: Point = Point::new(0, 0);
 pub const UP: Point = Point::new(0, -1);
@@ -107,5 +108,21 @@ impl Mul<i64> for Point {
     #[must_use]
     fn mul(self, rhs: i64) -> Self::Output {
         Point::new(self.x * rhs, self.y * rhs)
+    }
+}
+
+impl Neg for Point {
+    type Output = Self;
+
+    #[inline]
+    #[must_use]
+    fn neg(self) -> Self::Output {
+        Point::new(-self.x, -self.y)
+    }
+}
+
+impl fmt::Display for Point {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
     }
 }
