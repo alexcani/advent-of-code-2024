@@ -3,6 +3,7 @@ use std::time::Instant;
 
 pub struct Context {
     input: Vec<String>,
+    is_example: bool,
     sol1: Option<Solution>,
     sol2: Option<Solution>,
     base_time: Instant,
@@ -11,15 +12,20 @@ pub struct Context {
 }
 
 impl Context {
-    pub fn new(input: Vec<String>) -> Self {
+    pub fn new(input: Vec<String>, is_example: bool) -> Self {
         Self {
             input,
+            is_example,
             sol1: None,
             sol2: None,
             base_time: Instant::now(),
             sol1_time_ms: 0.0,
             sol2_time_ms: 0.0,
         }
+    }
+
+    pub fn is_example(&self) -> bool {
+        self.is_example
     }
 
     pub fn start_timer(&mut self) {

@@ -22,9 +22,9 @@ fn main() {
 
     for day in days {
         let func = days::get_day_solver(day);
-        let input = get_day_input(day);
+        let (input, is_example) = get_day_input(day);
 
-        let mut context = Context::new(input);
+        let mut context = Context::new(input, is_example);
         func(&mut context);
 
         let mut elapsed_ms = 0.0;
@@ -53,22 +53,22 @@ fn main() {
     println!("Total runtime: {:.4} ms", runtime);
 }
 
-fn get_day_input(day: u8) -> Vec<String> {
+fn get_day_input(day: u8) -> (Vec<String>, bool) {
     // If environment variable EXAMPLE is set, use example input
     if env::var("EXAMPLE").is_ok() {
-        return example::EXAMPLE
+        return (example::EXAMPLE
             .lines()
             .map(|l| l.trim().to_string())
-            .collect::<Vec<String>>();
+            .collect::<Vec<String>>(), true);
     }
 
     let path = format!("inputs/day{:02}.txt", day);
     match advent_of_code_2024::read_lines_as_vec(&path) {
-        Ok(lines) => lines,
+        Ok(lines) => (lines, false),
         Err(_) => {
             let path = format!("inputs/day{}.txt", day);
             match advent_of_code_2024::read_lines_as_vec(&path) {
-                Ok(lines) => lines,
+                Ok(lines) => (lines, false),
                 Err(_) => panic!("Could not find input file"),
             }
         }
