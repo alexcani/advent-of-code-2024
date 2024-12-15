@@ -4,6 +4,7 @@ use std::borrow::Borrow;
 use std::fmt::Display;
 use std::ops::{Index, IndexMut};
 
+#[derive(Clone)]
 pub struct Grid<T> {
     pub width: usize,
     pub height: usize,
