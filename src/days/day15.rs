@@ -1,6 +1,6 @@
-use std::collections::VecDeque;
-
 use advent_of_code_2024::*;
+
+use std::collections::VecDeque;
 use itertools::Itertools;
 
 pub fn solve(context: &mut Context) {
