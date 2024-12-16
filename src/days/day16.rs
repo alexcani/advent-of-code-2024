@@ -1,5 +1,5 @@
 use advent_of_code_2024::*;
-use pathfinding::prelude::yen;
+use pathfinding::prelude::astar_bag;
 use std::collections::HashSet;
 
 pub fn solve(context: &mut Context) {
@@ -7,7 +7,7 @@ pub fn solve(context: &mut Context) {
     let start = map.find(b'S').unwrap();
     let end = map.find(b'E').unwrap();
 
-    let result = yen(
+    let result = astar_bag(
         &(start, RIGHT),
         |pos| {
             let mut moves = vec![
@@ -20,22 +20,16 @@ pub fn solve(context: &mut Context) {
             }
             moves
         },
-        |pos| pos.0 == end,
-        4, // there are 4 paths in the input
-    );
+        |x| {x.0.manhattan_distance(&end)},
+        |pos| pos.0 == end
+    ).unwrap();
 
-    let cost = result[0].1;
+    let cost = result.1;
     context.set_sol1(cost);
 
-    let mut points = HashSet::new();
-    for result in &result {
-        if result.1 != cost {
-            // only consider the shortest paths, to accomodate example and input in the same code
-            break;
-        }
-        for node in &result.0 {
-            points.insert(node.0);
-        }
-    }
+    let paths = result.0;
+    let points = paths.flatten().map(|node| {
+        node.0
+    }).collect::<HashSet<_>>();
     context.set_sol2(points.len());
 }
