@@ -34,6 +34,14 @@ impl Grid<u8> {
                 .collect::<Vec<_>>(),
         )
     }
+
+    pub fn new(width: usize, height: usize, fill: u8) -> Self {
+        Grid {
+            width,
+            height,
+            data: vec![fill; width * height],
+        }
+    }
 }
 
 impl<T: PartialEq> Grid<T> {
