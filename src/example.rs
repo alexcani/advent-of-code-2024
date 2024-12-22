@@ -1,5 +1,6 @@
 pub static EXAMPLE: &str =
-r#"1
-2
-3
-2024"#;
+r#"029A
+980A
+179A
+456A
+379A"#;
